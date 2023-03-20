@@ -1,0 +1,91 @@
+<div class="w-100 row align-items-center breadcrumbb ml-0 mb-5">
+  <div class="offset-md-3 col-md-5 text-center">
+    <h3 class="text-center mt-4">
+      <% if @user.role.name == "teacher" %>
+        Teacher Details
+      <% elsif @user.role.name == "student" %>
+        Student Details
+      <% else %>
+        User Details
+      <% end %>
+    </h3>
+  </div>
+    <div class="col-md-4 text-right"> 
+        <span>
+          <span class="breadcrumb-item"><%= link_to 'Home', root_path %></span>
+          <% if current_user.role.name == 'superadmin' || current_user.role.name == 'principal' %>
+            <span class="breadcrumb-item"><%= link_to "User's", users_path %></span>
+          <% end %>
+          <span class="breadcrumb-item active" aria-current="page">Show Teacher</span>
+        <span>
+    </div>
+ </div>
+
+
+<div class="container ">
+  <div class="card shadow mb-5 bg-white rounded text-center mb-5">
+    <div class="card-body">
+      <p>
+        <strong>Username:</strong>
+        <%= @user.name %>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <%= @user.email %>
+      </p>
+      <p>
+        <strong>password:</strong>
+        <%= @user.password %>
+      </p>
+      <% if @user.role.name=="student" %>
+        <p>
+          <strong>Father's Name:</strong>
+          <%= @user.fname %>
+        </p>
+        <p>
+          <strong>Mother's Name:</strong>
+          <%= @user.mname %>
+        </p>
+      <% end %>
+      <p>
+        <strong>Mobile No.:</strong>
+        <%= @user.phn %>
+      </p>
+      <p>
+        <strong> address:</strong>
+        <%= @user.address %>
+      </p>
+      
+      <p>
+        <%=link_to 'Edit', edit_user_path(@user), class:"btn btn-outline-success btn-lg "%>
+        <% if current_user.role.name == 'superadmin' || current_user.role.name == 'principal' %>
+          <%=link_to 'Delete', @user, method: :delete, data:{confirm:"Are You Sure to Delete ?"}, class:"btn btn-outline-danger btn-lg "%>
+        <% end %>
+        <%=link_to 'Back', :back, class: "btn btn-outline-secondary btn-lg"%> </button>
+      </p>
+
+      <% if current_user.role.name == "principal"  %>
+        <% if @user.role.name == "teacher" && @user.students.any? %>
+          <h3>Student Details</h3>
+          <%= render 'studentdata', students: @user.students %>
+        <% elsif @user.role.name == "student" && @user.teacher %>
+          <h3>Teacher Details</h3>
+          <table class="table">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+            <tr>
+              <td><%=  @user.teacher.name %></td>
+              <td><%= @user.teacher.email %></td>
+              <td><%=  @user.teacher.phn %></td>
+            </tr>
+          </table>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

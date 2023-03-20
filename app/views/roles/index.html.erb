@@ -1,0 +1,46 @@
+<div class="w-100 row align-items-center breadcrumbb ml-0 mb-5">
+    <div class="offset-md-4 col-md-4 text-center">
+          <h1 class="text-center mt-4">Role Details </h1>
+    </div>
+    <div class="col-md-4 text-right"> 
+        <span>
+            <span class="breadcrumb-item"><%= link_to 'Home', root_path %></span>
+		    <span class="breadcrumb-item"><%= link_to 'Create Role', new_role_path %></span>
+            <span class="breadcrumb-item active" aria-current="page">Role Details</span>
+        <span>
+    </div>
+</div>
+
+
+<div class="container" style="overflow-x: auto;">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Sl. no.</th>
+				<th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col"class=" text-center" colspan="2">Action</th>
+                
+			</tr>
+		</thead>
+		<%@count=0%>
+		<% @roles.each do |role| %>
+            <tbody>
+                <%@count=@count+1%>
+                <tr>
+                    <th scope="row"><%= @count%></th>
+                    <td><%= role.name %></td>
+                    <td><%= role.description %></td>
+                    <td><%= link_to 'Edit', edit_role_path(role), class:"btn btn-outline-primary" %></td>
+                    <td><%= link_to 'Delete', role, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-outline-danger" %></td>
+                        
+                </tr>
+                            
+            </tbody>
+		<%end%>
+	</table>
+				
+</div>
+
+
+

@@ -1,0 +1,15 @@
+<div class="w-100 row align-items-center breadcrumbb ml-0 mb-5">
+    <div class="offset-md-4 col-md-4 text-center">
+          <h1 class="text-center mt-4"> Edit Role </h1>
+    </div>
+    <div class="col-md-4 text-right"> 
+        <span>
+		    <span class="breadcrumb-item"><%= link_to "Role's", roles_path %></span>
+		    <span class="breadcrumb-item active" aria-current="page">Edit Role</span>
+        <span>
+    </div>
+ </div>
+
+<%= render 'form', role: @role %>
+
+

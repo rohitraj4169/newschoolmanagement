@@ -1,0 +1,13 @@
+<div class="w-100 row align-items-center breadcrumbb ml-0 mb-5">
+    <div class="offset-md-4 col-md-4 text-center">
+          <h3 class="text-center mt-4">Student Details </h3>
+    </div>
+    <div class="col-md-4 text-right"> 
+        <span>
+            <span class="breadcrumb-item"><%= link_to 'Home', root_path %></span>
+            <span class="breadcrumb-item"><%= link_to 'new Student', new_user_path %></span>
+            <span class="breadcrumb-item active" aria-current="page">Student Details</span>
+        <span>
+    </div>
+ </div>
+ <%= render partial: 'studentdata', locals: { students: (current_user.role.name == "teacher" ? current_user.students : @students) } %>

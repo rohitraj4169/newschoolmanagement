@@ -1,0 +1,38 @@
+<div class="container" style="overflow-x: auto;">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Sl. no.</th>
+				<th scope="col">Name</th>
+				<th scope="col">Father's Name</th>        
+        <th scope="col">Mobile</th>
+        <th scope="col">Email</th>
+        <th scope="col"class=" text-center" colspan="3">Action</th>
+        
+			</tr>
+		</thead>
+		<%@count=0%>
+		<%students.each do |student| %>
+            <tbody>
+                <%@count=@count+1%>
+                <tr>
+                    <th scope="row"><%= @count%></th>
+                    <td><%= student.name %></td>
+                    <td><%= student.fname %></td>
+                   
+                    <td><%= student.phn %></td>
+                    <td><%= student.email %></td>
+                    <% if current_user.role.name != 'student' %>
+                        <td><%= link_to 'Show', student,class:"btn btn-outline-success" %></td>
+                        <td><%= link_to 'Edit', edit_user_path(student), class:"btn btn-outline-primary" %></td>
+                        <% if current_user.role.name == 'superadmin' || current_user.role.name == 'principal' %>
+                            <td><%= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-outline-danger" %></td>
+                        <% end %>
+                    <% end %>
+                </tr>
+                            
+            </tbody>
+		<%end%>
+	</table>
+				
+</div>

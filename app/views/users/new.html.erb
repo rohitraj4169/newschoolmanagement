@@ -1,0 +1,19 @@
+<div class="w-100 row align-items-center breadcrumbb ml-0 mb-5">
+    <div class="offset-md-4 col-md-4 text-center">
+          <h3 class="text-center mt-4"> New User </h3>
+    </div>
+    <div class="col-md-4 text-right"> 
+        <span>
+            <span class="breadcrumb-item"></span>
+		    <span class="breadcrumb-item"><%= link_to "Users's", users_path %></span>
+		    <span class="breadcrumb-item active" aria-current="page">Create User</span>
+        <span>
+    </div>
+ </div>
+
+
+
+
+<%= render 'form', user: @user %>
+
+

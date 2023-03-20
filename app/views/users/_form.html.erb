@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-10">
+
+      <%= form_with(model: user) do |form| %>
+        <% if user.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+            <ul>
+              <% user.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group row">
+          <%= form.label :name,class:"col-2 col-form-label"%>
+          <div class="col-5">
+            <%= form.text_field :name,rows:4,class:"form-control shadow rounded",placeholder:"Enter  Name",required: true %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <%= form.label :email,class:"col-2 col-form-label"%>
+          <div class="col-5">
+            <%= form.text_field :email,rows:4,class:"form-control shadow rounded",placeholder:"Enter Email I'd",required: true %>
+          </div>
+        </div>
+      
+          <% if form.object.new_record?  || (current_user.role.name =='principal' || current_user.role.name =='superadmin')%>
+            <div class="form-group row">
+              <%= form.label :password,class:"col-2 col-form-label"%>
+              <div class="col-5">
+                <%= form.password_field :password,rows:4,class:"form-control shadow rounded",placeholder:"Enter Password",required: true %>
+              </div>
+            </div>
+        
+            <div class="form-group row">
+              <%= form.label :role_id ,class:"col-2 col-form-label"%>
+              <div class="col-5">
+              <%= form.collection_select(:role_id, roles_for_current_user, :id, :name, { prompt: "Choose Role" }, { class: "form-control shadow rounded", id: "user_role_id" })  %>
+              </div>
+            </div>
+          <% end %>
+       
+
+
+
+        <div id="student-form" style="display:none;">
+          <div class="form-group row">
+            <%= form.label :fname,class:"col-2 col-form-label"%>
+            <div class="col-5">
+              <%= form.text_field :fname,rows:4,class:"form-control shadow rounded",placeholder:"Enter Father's Name" %>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <%= form.label :mname,class:"col-2 col-form-label"%>
+            <div class="col-5">
+              <%= form.text_field :mname,rows:4,class:"form-control shadow rounded",placeholder:"Enter Mother's Name" %>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <%= form.label :dob,class:"col-2 col-form-label"%>
+            <div class="col-5">
+              <%= form.date_select :dob,rows:4,class:"form-control shadow rounded",placeholder:"Select DOB",required: true %>
+            </div>
+          </div>
+
+          <% if current_user.role.name == 'superadmin' || current_user.role.name == 'principal' %>
+            <div class="form-group row">
+              <%= form.label :teacher_id, class: "col-2 col-form-label" %>
+              <div class="col-5">
+                <%= form.collection_select(:teacher_id, User.where(role_id: 2).where.not(id: @user.id), :id, :name, { prompt: "Choose Teacher" }, { class: "form-control shadow rounded", id: "user_teacher_id" }) %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+
+        <div class="form-group row">
+          <%= form.label :phn,class:"col-2 col-form-label"%>
+          <div class="col-5">
+            <%= form.text_field :phn,rows:4,class:"form-control shadow rounded",placeholder:"Enter Phone Number",required: true %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <%= form.label :address,class:"col-2 col-form-label"%>
+          <div class="col-5">
+            <%= form.text_field :address,rows:4,class:"form-control shadow rounded",placeholder:"Enter Address",required: true %>
+          </div>
+        </div>
+        
+
+
+        <div class="row">
+          <div class="actions form-group offset-md-2 col-md-2 text-center">
+            <%= form.submit class:"btn btn-success btn-lg" %>
+          </div>
+          <div class="form-group  col-md-4  text-center">
+            <%= link_to 'Cancel', :back,class:"btn btn-danger btn-lg" %>
+          </div>
+        </div>
+        
+      <% end %>
+
+
+        
+      
+
+    </div>
+  </div>
+</div>
+<script>
+    var userRoleSelect = document.getElementById("user_role_id");
+    var studentForm = document.getElementById("student-form");
+
+    function showAppropriateForm() {
+      var selectedRoleId = userRoleSelect.value;
+
+      if (selectedRoleId == <%= Role.find_by(name: "student").id %>) {
+        studentForm.style.display = "block";
+      } else {
+        studentForm.style.display = "none";
+      }
+    }
+
+    // Show the appropriate form when the page is loaded or when the user's Role changes
+    showAppropriateForm();
+    userRoleSelect.addEventListener("change", showAppropriateForm);
+</script>
